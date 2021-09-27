@@ -30,67 +30,7 @@
       </section>
 
       <section class="cards content__cards">
-        <ul class="cards__list">
-          <li class="card">
-            <img src="./images/photo-yosemite-valley.jpg" alt="A photo of Yosemite Valley" class="card__image">
-
-            <div class="card__caption">
-              <h2 class="card__caption-text">Yosemite Valley</h2>
-
-              <button type="button" class="card__caption-button" title="Like"></button>
-            </div>
-          </li>
-
-          <li class="card">
-            <img src="./images/photo-lake-louise.jpg" alt="A photo of Lake Louise" class="card__image">
-
-            <div class="card__caption">
-              <h2 class="card__caption-text">Lake Louise</h2>
-
-              <button type="button" class="card__caption-button" title="Like"></button>
-            </div>
-          </li>
-
-          <li class="card">
-            <img src="./images/photo-bald-mountains.jpg" alt="A photo of Bald Mountains" class="card__image">
-
-            <div class="card__caption">
-              <h2 class="card__caption-text">Bald Mountains</h2>
-
-              <button type="button" class="card__caption-button" title="Like"></button>
-            </div>
-          </li>
-
-          <li class="card">
-            <img src="./images/photo-latemar.jpg" alt="A photo of Latemar" class="card__image">
-
-            <div class="card__caption">
-              <h2 class="card__caption-text">Latemar</h2>
-
-              <button type="button" class="card__caption-button" title="Like"></button>
-            </div>
-          </li>
-
-          <li class="card">
-            <img src="./images/photo-vanoise-national-park.jpg" alt="A photo of Vanoise National Park" class="card__image">
-
-            <div class="card__caption">
-              <h2 class="card__caption-text">Vanoise National Park</h2>
-
-              <button type="button" class="card__caption-button" title="Like"></button>
-            </div>
-          </li>
-
-          <li class="card">
-            <img src="./images/photo-lago-di-braies.jpg" alt="A photo of Lago di Braies" class="card__image">
-
-            <div class="card__caption">
-              <h2 class="card__caption-text">Lago di Braies</h2>
-
-              <button type="button" class="card__caption-button" title="Like"></button>
-            </div>
-          </li>
-        </ul>
+        <ul class="cards__list"></ul>
       </section>
     </main>
 
@@ -99,8 +39,8 @@
     </footer>
   </div>
 
-  <div class="dialogue">
-    <div class="dialogue__container">
+  <div class="dialogue dialogue_type_profile-edit">
+    <div class="dialogue__container dialogue__container_content_form">
       <button type="button" class="dialogue__close-button" title="Close dialogue"></button>
 
       <h2 class="dialogue__title">Edit profile</h2>
@@ -116,6 +56,50 @@
       </form>
     </div>
   </div>
+
+  <div class="dialogue dialogue_type_card-add">
+    <div class="dialogue__container dialogue__container_content_form">
+      <button type="button" class="dialogue__close-button" title="Close dialogue"></button>
+
+      <h2 class="dialogue__title">New place</h2>
+
+      <form class="dialogue__form" action="./index.html">
+        <input type="text" name="title" class="dialogue__form-field dialogue__form-field_type_title" placeholder="Title"
+               minlength="3" maxlength="32" autocomplete="off" required>
+
+        <input type="url" name="image" class="dialogue__form-field dialogue__form-field_type_image" placeholder="Image link"
+               minlength="3" maxlength="255" autocomplete="off" required>
+
+        <button type="submit" class="dialogue__submit-button">Create</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="dialogue dialogue_type_card-view">
+    <div class="dialogue__container dialogue__container_content_card">
+      <button type="button" class="dialogue__close-button" title="Close dialogue"></button>
+
+      <img src="" alt="" class="dialogue__image">
+
+      <p class="dialogue__caption"></p>
+    </div>
+  </div>
+
+  <template id="card-template">
+    <li class="card">
+      <div class="card__image-container">
+        <img src="" alt="" class="card__image">
+
+        <button type="button" class="card__remove-button" title="Remove"></button>
+      </div>
+
+      <div class="card__title-container">
+        <h2 class="card__title"></h2>
+
+        <button type="button" class="card__like-button" title="Like"></button>
+      </div>
+    </li>
+  </template>
 
   <script src="./scripts/index.js"></script>
 </body>
