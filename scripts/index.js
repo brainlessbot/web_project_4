@@ -66,14 +66,19 @@ const initialCards = [
 ];
 
 /*
- * Show/hide a specific dialogue.
+ * Show a specific dialogue.
  */
-const toggleDialogue = (dialogueBlock) => dialogueBlock.classList.toggle('dialogue_opened');
+const openDialogue = (dialogueBlock) => dialogueBlock.classList.add('dialogue_opened');
+
+/*
+ * Hide a specific dialogue.
+ */
+const closeDialogue = (dialogueBlock) => dialogueBlock.classList.remove('dialogue_opened');
 
 /*
  * Handle dialogue close button clicking event.
  */
-const handleDialogueCloseButtonClicking = (event) => toggleDialogue(event.target.closest('.dialogue'));
+const handleDialogueCloseButtonClicking = (event) => closeDialogue(event.target.closest('.dialogue'));
 
 /*
  * Add a new created card to the DOM, first in the list.
@@ -88,18 +93,13 @@ const insertCardLast = (cardBlock) => cardsElements.list.append(cardBlock);
 /*
  * Handle card image clicking event.
  */
-const handleCardImageClicking = (event) => {
-  const clickedCard = event.target.closest('.card');
-
-  const cardTitle = clickedCard.querySelector('.card__title').textContent;
-  const cardImage = clickedCard.querySelector('.card__image').src;
-
+const handleCardImageClicking = (cardTitle, cardImage) => {
   cardViewDialogueElements.image.alt = cardTitle;
   cardViewDialogueElements.image.src = cardImage;
 
   cardViewDialogueElements.caption.textContent = cardTitle;
 
-  toggleDialogue(cardViewDialogueBlock);
+  openDialogue(cardViewDialogueBlock);
 }
 
 /*
@@ -120,7 +120,7 @@ const createCard = (cardTitle, cardImage) => {
 
   // Set card's image
   const imageElement = cardBlock.querySelector('.card__image');
-  imageElement.addEventListener('click', handleCardImageClicking);
+  imageElement.addEventListener('click', () => handleCardImageClicking(cardTitle, cardImage));
   imageElement.alt = cardTitle;
   imageElement.src = cardImage;
 
@@ -149,7 +149,7 @@ const handleCardAddFormSubmission = (event) => {
     createCard(cardAddDialogueElements.titleField.value, cardAddDialogueElements.imageField.value)
   );
 
-  toggleDialogue(cardAddDialogueBlock);
+  closeDialogue(cardAddDialogueBlock);
 }
 
 /*
@@ -161,7 +161,7 @@ const handleProfileEditFormSubmission = (event) => {
   profileElements.name.textContent = profileEditDialogueElements.nameField.value;
   profileElements.about.textContent = profileEditDialogueElements.aboutField.value;
 
-  toggleDialogue(profileEditDialogueBlock);
+  closeDialogue(profileEditDialogueBlock);
 }
 
 /*
@@ -171,7 +171,7 @@ const handleAddButtonClicking = () => {
   cardAddDialogueElements.titleField.value = null;
   cardAddDialogueElements.imageField.value = null;
 
-  toggleDialogue(cardAddDialogueBlock);
+  openDialogue(cardAddDialogueBlock);
 }
 
 /*
@@ -181,7 +181,7 @@ const handleEditButtonClicking = () => {
   profileEditDialogueElements.nameField.value = profileElements.name.textContent;
   profileEditDialogueElements.aboutField.value = profileElements.about.textContent;
 
-  toggleDialogue(profileEditDialogueBlock);
+  openDialogue(profileEditDialogueBlock);
 }
 
 /*

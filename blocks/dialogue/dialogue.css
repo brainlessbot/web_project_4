@@ -7,9 +7,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
   visibility: hidden;
   opacity: 0;
-  transition: visibility .2s linear, opacity .2s linear;
+  transition: all .2s linear;
 }
 
 .dialogue::before {
