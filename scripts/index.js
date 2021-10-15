@@ -65,33 +65,52 @@ const initialCards = [
   }
 ];
 
-/*
+/**
  * Show a specific dialogue.
+ *
+ * @param {Element} dialogueBlock
+ * @returns {void}
  */
 const openDialogue = (dialogueBlock) => dialogueBlock.classList.add('dialogue_opened');
 
-/*
+/**
  * Hide a specific dialogue.
+ *
+ * @param {Element} dialogueBlock
+ * @returns {void}
  */
 const closeDialogue = (dialogueBlock) => dialogueBlock.classList.remove('dialogue_opened');
 
-/*
+/**
  * Handle dialogue close button clicking event.
+ *
+ * @param {Event} event
+ * @returns {void}
  */
 const handleDialogueCloseButtonClicking = (event) => closeDialogue(event.target.closest('.dialogue'));
 
-/*
+/**
  * Add a new created card to the DOM, first in the list.
+ *
+ * @param {Node} cardBlock
+ * @returns {void}
  */
 const insertCardFirst = (cardBlock) => cardsElements.list.prepend(cardBlock);
 
-/*
+/**
  * Add a new created card to the DOM, last in the list.
+ *
+ * @param {Node} cardBlock
+ * @returns {void}
  */
 const insertCardLast = (cardBlock) => cardsElements.list.append(cardBlock);
 
-/*
+/**
  * Handle card image clicking event.
+ *
+ * @param {string} cardTitle
+ * @param {string} cardImage
+ * @returns {void}
  */
 const handleCardImageClicking = (cardTitle, cardImage) => {
   cardViewDialogueElements.image.alt = cardTitle;
@@ -102,18 +121,28 @@ const handleCardImageClicking = (cardTitle, cardImage) => {
   openDialogue(cardViewDialogueBlock);
 }
 
-/*
+/**
  * Handle card like clicking event.
+ *
+ * @param {Event} event
+ * @returns {boolean}
  */
 const handleCardLikeClicking = (event) => event.target.classList.toggle('card__like-button_active');
 
-/*
+/**
  * Handle card remove clicking event.
+ *
+ * @param {Event} event
+ * @returns {void}
  */
 const handleCardRemoveClicking = (event) => event.target.closest('.card').remove();
 
-/*
+/**
  * Create a new card block.
+ *
+ * @param {string} cardTitle
+ * @param {string} cardImage
+ * @returns {Node}
  */
 const createCard = (cardTitle, cardImage) => {
   const cardBlock = cardTemplate.querySelector('.card').cloneNode(true);
@@ -139,8 +168,11 @@ const createCard = (cardTitle, cardImage) => {
   return cardBlock;
 }
 
-/*
+/**
  * Handle card-add form submission event.
+ *
+ * @param {Event} event
+ * @returns {void}
  */
 const handleCardAddFormSubmission = (event) => {
   event.preventDefault();
@@ -152,8 +184,11 @@ const handleCardAddFormSubmission = (event) => {
   closeDialogue(cardAddDialogueBlock);
 }
 
-/*
+/**
  * Handle profile-edit form submission event.
+ *
+ * @param {Event} event
+ * @returns {void}
  */
 const handleProfileEditFormSubmission = (event) => {
   event.preventDefault();
@@ -164,8 +199,10 @@ const handleProfileEditFormSubmission = (event) => {
   closeDialogue(profileEditDialogueBlock);
 }
 
-/*
+/**
  * Handle add button clicking event.
+ *
+ * @returns {void}
  */
 const handleAddButtonClicking = () => {
   cardAddDialogueElements.titleField.value = null;
@@ -174,8 +211,10 @@ const handleAddButtonClicking = () => {
   openDialogue(cardAddDialogueBlock);
 }
 
-/*
+/**
  * Handle edit button clicking event.
+ *
+ * @returns {void}
  */
 const handleEditButtonClicking = () => {
   profileEditDialogueElements.nameField.value = profileElements.name.textContent;
@@ -184,8 +223,10 @@ const handleEditButtonClicking = () => {
   openDialogue(profileEditDialogueBlock);
 }
 
-/*
+/**
  * Perform startup tasks.
+ *
+ * @returns {void}
  */
 const initializeApp = () => {
   // Create and add initial cards to the DOM
