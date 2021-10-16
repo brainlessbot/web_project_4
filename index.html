@@ -45,13 +45,13 @@
 
       <h2 class="dialogue__title">Edit profile</h2>
 
-      <form name="profile-edit" class="dialogue__form" action="./index.html" novalidate>
-        <input type="text" id="profile-edit-name" name="name" class="dialogue__form-field dialogue__form-field_type_name" placeholder="Name"
+      <form id="profile-edit" class="dialogue__form" action="./index.html" novalidate>
+        <input type="text" name="name" class="dialogue__form-field dialogue__form-field_type_name" placeholder="Name"
                minlength="2" maxlength="40" autocomplete="off" required>
 
         <span class="dialogue__form-error profile-edit-name-error"></span>
 
-        <input type="text" id="profile-edit-about" name="about" class="dialogue__form-field dialogue__form-field_type_about" placeholder="About"
+        <input type="text" name="about" class="dialogue__form-field dialogue__form-field_type_about" placeholder="About"
                minlength="2" maxlength="200" autocomplete="off" required>
 
         <span class="dialogue__form-error profile-edit-about-error"></span>
@@ -67,13 +67,13 @@
 
       <h2 class="dialogue__title">New place</h2>
 
-      <form name="card-add" class="dialogue__form" action="./index.html" novalidate>
-        <input type="text" id="card-add-title" name="title" class="dialogue__form-field dialogue__form-field_type_title" placeholder="Title"
+      <form id="card-add" class="dialogue__form" action="./index.html" novalidate>
+        <input type="text" name="title" class="dialogue__form-field dialogue__form-field_type_title" placeholder="Title"
                minlength="1" maxlength="30" autocomplete="off" required>
 
         <span class="dialogue__form-error card-add-title-error"></span>
 
-        <input type="url" id="card-add-image" name="image" class="dialogue__form-field dialogue__form-field_type_image" placeholder="Image link"
+        <input type="url" name="image" class="dialogue__form-field dialogue__form-field_type_image" placeholder="Image link"
                autocomplete="off" required>
 
         <span class="dialogue__form-error card-add-image-error"></span>

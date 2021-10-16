@@ -3,12 +3,12 @@
  *
  * @param {Element} formElement
  * @param {Element} inputElement
- * @param {String} errorMessage
+ * @param {string} errorMessage
  * @param {Object} validationSettings
  * @returns {void}
  */
 const showInputError = (formElement, inputElement, errorMessage, validationSettings) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  const errorElement = formElement.querySelector(`.${formElement.id}-${inputElement.name}-error`);
 
   inputElement.classList.add(validationSettings.inputErrorClass);
   errorElement.classList.add(validationSettings.errorVisibleClass);
@@ -24,7 +24,7 @@ const showInputError = (formElement, inputElement, errorMessage, validationSetti
  * @returns {void}
  */
 const hideInputError = (formElement, inputElement, validationSettings) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  const errorElement = formElement.querySelector(`.${formElement.id}-${inputElement.name}-error`);
 
   inputElement.classList.remove(validationSettings.inputErrorClass);
   errorElement.classList.remove(validationSettings.errorVisibleClass);
@@ -51,7 +51,7 @@ const checkInputValidity = (formElement, inputElement, validationSettings) => {
  * Check whether all inputs are valid.
  *
  * @param {Element[]} inputsList
- * @returns {Boolean}
+ * @returns {boolean}
  */
 const hasInvalidInput = (inputsList) => inputsList.some((inputElement) => !inputElement.validity.valid);
 
