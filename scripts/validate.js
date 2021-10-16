@@ -8,7 +8,7 @@
  * @returns {void}
  */
 const showInputError = (formElement, inputElement, errorMessage, validationSettings) => {
-  const errorElement = formElement.querySelector(`.${formElement.name}-${inputElement.name}-error`);
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
   inputElement.classList.add(validationSettings.inputErrorClass);
   errorElement.classList.add(validationSettings.errorVisibleClass);
@@ -24,7 +24,7 @@ const showInputError = (formElement, inputElement, errorMessage, validationSetti
  * @returns {void}
  */
 const hideInputError = (formElement, inputElement, validationSettings) => {
-  const errorElement = formElement.querySelector(`.${formElement.name}-${inputElement.name}-error`);
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
   inputElement.classList.remove(validationSettings.inputErrorClass);
   errorElement.classList.remove(validationSettings.errorVisibleClass);
