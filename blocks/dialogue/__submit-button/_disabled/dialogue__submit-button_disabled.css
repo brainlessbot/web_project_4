@@ -1,0 +1,7 @@
+.dialogue__submit-button_disabled,
+.dialogue__submit-button_disabled:hover {
+  border: 1px solid #000000;
+  background-color: #FFFFFF;
+  color: #000000;
+  opacity: .2;
+}

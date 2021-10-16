@@ -15,10 +15,7 @@ const profileElements = {
 
 // Card-add dialogue definitions
 const cardAddDialogueBlock = document.querySelector('.dialogue_type_card-add');
-const cardAddDialogueElements = {
-  titleField: cardAddDialogueBlock.querySelector('.dialogue__form-field_type_title'),
-  imageField: cardAddDialogueBlock.querySelector('.dialogue__form-field_type_image')
-}
+const cardAddDialogueForm = document.forms['card-add'];
 
 // Card-view dialogue definitions
 const cardViewDialogueBlock = document.querySelector('.dialogue_type_card-view');
@@ -29,10 +26,7 @@ const cardViewDialogueElements = {
 
 // Profile-edit dialogue definitions
 const profileEditDialogueBlock = document.querySelector('.dialogue_type_profile-edit');
-const profileEditDialogueElements = {
-  nameField: profileEditDialogueBlock.querySelector('.dialogue__form-field_type_name'),
-  aboutField: profileEditDialogueBlock.querySelector('.dialogue__form-field_type_about')
-}
+const profileEditDialogueForm = document.forms['profile-edit'];
 
 // Templates
 const cardTemplate = document.querySelector('#card-template').content;
@@ -66,12 +60,48 @@ const initialCards = [
 ];
 
 /**
+ * Handle dialogue escape keydown event.
+ *
+ * @param {Event} event
+ * @returns {void}
+ */
+const handleDialogueEscapeKeydown = (event) => {
+  if (event.key === 'Escape') {
+    const dialogueBlock = document.querySelector('.dialogue_opened');
+
+    if (dialogueBlock) {
+      closeDialogue(dialogueBlock);
+    }
+  }
+}
+
+/**
+ * Handle dialogue close clicking event.
+ *
+ * @param {Event} event
+ * @returns {void}
+ */
+const handleDialogueCloseClicking = (event) => {
+  const targetElement = event.target;
+
+  if (targetElement.classList.contains('dialogue') ||
+    targetElement.classList.contains('dialogue__close-button')) {
+    closeDialogue(event.currentTarget);
+  }
+}
+
+/**
  * Show a specific dialogue.
  *
  * @param {Element} dialogueBlock
  * @returns {void}
  */
-const openDialogue = (dialogueBlock) => dialogueBlock.classList.add('dialogue_opened');
+const openDialogue = (dialogueBlock) => {
+  dialogueBlock.classList.add('dialogue_opened');
+
+  document.addEventListener('keydown', handleDialogueEscapeKeydown);
+  dialogueBlock.addEventListener('click', handleDialogueCloseClicking);
+}
 
 /**
  * Hide a specific dialogue.
@@ -79,15 +109,12 @@ const openDialogue = (dialogueBlock) => dialogueBlock.classList.add('dialogue_op
  * @param {Element} dialogueBlock
  * @returns {void}
  */
-const closeDialogue = (dialogueBlock) => dialogueBlock.classList.remove('dialogue_opened');
+const closeDialogue = (dialogueBlock) => {
+  dialogueBlock.classList.remove('dialogue_opened');
 
-/**
- * Handle dialogue close button clicking event.
- *
- * @param {Event} event
- * @returns {void}
- */
-const handleDialogueCloseButtonClicking = (event) => closeDialogue(event.target.closest('.dialogue'));
+  document.removeEventListener('keydown', handleDialogueEscapeKeydown);
+  dialogueBlock.removeEventListener('click', handleDialogueCloseClicking);
+}
 
 /**
  * Add a new created card to the DOM, first in the list.
@@ -178,8 +205,10 @@ const handleCardAddFormSubmission = (event) => {
   event.preventDefault();
 
   insertCardFirst(
-    createCard(cardAddDialogueElements.titleField.value, cardAddDialogueElements.imageField.value)
+    createCard(cardAddDialogueForm.elements.title.value, cardAddDialogueForm.elements.image.value)
   );
+
+  cardAddDialogueForm.reset();
 
   closeDialogue(cardAddDialogueBlock);
 }
@@ -193,8 +222,8 @@ const handleCardAddFormSubmission = (event) => {
 const handleProfileEditFormSubmission = (event) => {
   event.preventDefault();
 
-  profileElements.name.textContent = profileEditDialogueElements.nameField.value;
-  profileElements.about.textContent = profileEditDialogueElements.aboutField.value;
+  profileElements.name.textContent = profileEditDialogueForm.elements.name.value;
+  profileElements.about.textContent = profileEditDialogueForm.elements.about.value;
 
   closeDialogue(profileEditDialogueBlock);
 }
@@ -204,24 +233,14 @@ const handleProfileEditFormSubmission = (event) => {
  *
  * @returns {void}
  */
-const handleAddButtonClicking = () => {
-  cardAddDialogueElements.titleField.value = null;
-  cardAddDialogueElements.imageField.value = null;
-
-  openDialogue(cardAddDialogueBlock);
-}
+const handleAddButtonClicking = () => openDialogue(cardAddDialogueBlock);
 
 /**
  * Handle edit button clicking event.
  *
  * @returns {void}
  */
-const handleEditButtonClicking = () => {
-  profileEditDialogueElements.nameField.value = profileElements.name.textContent;
-  profileEditDialogueElements.aboutField.value = profileElements.about.textContent;
-
-  openDialogue(profileEditDialogueBlock);
-}
+const handleEditButtonClicking = () => openDialogue(profileEditDialogueBlock);
 
 /**
  * Perform startup tasks.
@@ -241,16 +260,14 @@ const initializeApp = () => {
   profileElements.editButton.addEventListener('click', handleEditButtonClicking);
 
   // Make add card form interactive
-  cardAddDialogueBlock.addEventListener('submit', handleCardAddFormSubmission);
+  cardAddDialogueForm.addEventListener('submit', handleCardAddFormSubmission);
 
   // Make edit profile form interactive
-  profileEditDialogueBlock.addEventListener('submit', handleProfileEditFormSubmission);
+  profileEditDialogueForm.addEventListener('submit', handleProfileEditFormSubmission);
 
-  // Make all dialogues' close buttons interactive
-  const closeButtons = document.querySelectorAll('.dialogue__close-button');
-  closeButtons.forEach(
-    (buttonElement) => buttonElement.addEventListener('click', handleDialogueCloseButtonClicking)
-  );
+  // Fill edit profile form with default data
+  profileEditDialogueForm.elements.name.value = profileElements.name.textContent;
+  profileEditDialogueForm.elements.about.value = profileElements.about.textContent;
 }
 
 // Bring it on :)

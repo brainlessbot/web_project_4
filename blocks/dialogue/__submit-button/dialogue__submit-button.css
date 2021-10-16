@@ -1,6 +1,7 @@
 .dialogue__submit-button {
   width: 100%;
   min-height: 50px;
+  margin-top: 48px;
   padding: 0;
   border: none;
   border-radius: 2px;

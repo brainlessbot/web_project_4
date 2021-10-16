@@ -45,12 +45,16 @@
 
       <h2 class="dialogue__title">Edit profile</h2>
 
-      <form class="dialogue__form" action="./index.html">
+      <form name="profile-edit" class="dialogue__form" action="./index.html" novalidate>
         <input type="text" name="name" class="dialogue__form-field dialogue__form-field_type_name" placeholder="Name"
-               minlength="3" maxlength="32" autocomplete="off" required>
+               minlength="2" maxlength="40" autocomplete="off" required>
+
+        <span class="dialogue__form-error profile-edit-name-error"></span>
 
         <input type="text" name="about" class="dialogue__form-field dialogue__form-field_type_about" placeholder="About"
-               minlength="3" maxlength="32" autocomplete="off" required>
+               minlength="2" maxlength="200" autocomplete="off" required>
+
+        <span class="dialogue__form-error profile-edit-about-error"></span>
 
         <button type="submit" class="dialogue__submit-button">Save</button>
       </form>
@@ -63,12 +67,16 @@
 
       <h2 class="dialogue__title">New place</h2>
 
-      <form class="dialogue__form" action="./index.html">
+      <form name="card-add" class="dialogue__form" action="./index.html" novalidate>
         <input type="text" name="title" class="dialogue__form-field dialogue__form-field_type_title" placeholder="Title"
-               minlength="3" maxlength="32" autocomplete="off" required>
+               minlength="1" maxlength="30" autocomplete="off" required>
+
+        <span class="dialogue__form-error card-add-title-error"></span>
 
         <input type="url" name="image" class="dialogue__form-field dialogue__form-field_type_image" placeholder="Image link"
-               minlength="3" maxlength="255" autocomplete="off" required>
+               autocomplete="off" required>
+
+        <span class="dialogue__form-error card-add-image-error"></span>
 
         <button type="submit" class="dialogue__submit-button">Create</button>
       </form>
@@ -102,5 +110,6 @@
   </template>
 
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 </html>
