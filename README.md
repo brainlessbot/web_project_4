@@ -4,7 +4,7 @@
 
 This is a single-page HTML, CSS and JavaScript project which simulates a social network profile. It was built as part of Yandex's Practicum100 program.
 
-This project demonstrates advanced HTML and CSS concepts, such as grid and flexbox layouts, responsive designing, and also basic JavaScript.
+ This project demonstrates advanced HTML, CSS and JavaScript concepts, such as grid/flexbox layouts, responsive designing and OOP programming.
 
 ## Links
 
@@ -13,8 +13,6 @@ This project demonstrates advanced HTML and CSS concepts, such as grid and flexb
 
 ## Installation
 
-In order to download and work on this project you need to understand the basics of HTML, CSS and JavaScript, and to have `git` installed on your computer.
-
-Use this single command inside your terminal:
+In order to download and work on this project use this single command inside your terminal:
 
 `git clone https://github.com/brainlessbot/web_project_4.git`
