@@ -17,7 +17,7 @@ import {
     userInfoAboutSelector,
     userInfoNameSelector,
     validationSettings
-} from '../utilitis/constants';
+} from '../utilities/constants';
 import './index.css';
 
 /**
