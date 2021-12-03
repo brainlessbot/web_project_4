@@ -1,6 +1,5 @@
 class Card {
     // Selectors and classes
-    _templateSelector = '#card-template';
     _cardSelector = '.card';
     _titleSelector = '.card__title';
     _imageSelector = '.card__image';
@@ -14,12 +13,14 @@ class Card {
      * @constructor
      * @param {string} titleText
      * @param {string} imageURL
+     * @param {string} templateSelector
      * @param {Function} onClickFunc
      * @public
      */
-    constructor({titleText, imageURL}, onClickFunc) {
+    constructor({titleText, imageURL}, templateSelector, onClickFunc) {
         this._titleText = titleText;
         this._imageURL = imageURL;
+        this._templateSelector = templateSelector;
         this._onClickFunc = onClickFunc;
 
         // Bind the current instance to the event handlers

@@ -8,11 +8,10 @@ import {
     buttonCardAddSelector,
     buttonProfileEditSelector,
     cardsContainerSelector,
+    cardTemplateSelector,
     dialogueCardAddSelector,
     dialogueCardViewSelector,
     dialogueProfileEditSelector,
-    formCardAddName,
-    formProfileEditName,
     initialCards,
     userInfoAboutSelector,
     userInfoNameSelector,
@@ -21,17 +20,16 @@ import {
 import './index.css';
 
 /**
- * Create a card which opens a dialogue when clicked, and return the prepared element.
+ * Create a card which opens a dialogue when clicked, and return the final element.
  *
  * @param {Object} cardData
  * @returns {Element}
  */
 export const createCardWithDialogue = (cardData) => {
-    const dialogue = new DialogueWithImage(dialogueCardViewSelector, {
+    const card = new Card(cardData, cardTemplateSelector, () => dialogueCardView.open({
         imageURL: cardData.imageURL,
         captionText: cardData.titleText
-    });
-    const card = new Card(cardData, () => dialogue.open());
+    }));
 
     return card.generateElement();
 }
@@ -46,7 +44,6 @@ const addValidationToForms = () => {
 
     formsList.forEach(formElement => {
         const validatorObj = new FormValidator(formElement, validationSettings);
-
         validatorObj.enableValidation();
     });
 }
@@ -60,7 +57,6 @@ const cardsContainer = new Section({
     itemsList: initialCards,
     rendererFunc: (cardData) => {
         const cardElement = createCardWithDialogue(cardData);
-
         cardsContainer.addElementLast(cardElement);
     }
 }, cardsContainerSelector);
@@ -70,31 +66,32 @@ const cardsContainer = new Section({
  *
  * @type {DialogueWithForm}
  */
-const dialogueCardAdd = new DialogueWithForm(dialogueCardAddSelector, {
-    formName: formCardAddName,
-    onSubmitFunc: (inputsList) => {
-        const cardElement = createCardWithDialogue({
-            titleText: inputsList.title.value,
-            imageURL: inputsList.image.value
-        });
+const dialogueCardAdd = new DialogueWithForm(dialogueCardAddSelector, (inputsList) => {
+    const cardElement = createCardWithDialogue({
+        titleText: inputsList.title.value,
+        imageURL: inputsList.image.value
+    });
 
-        cardsContainer.addElementFirst(cardElement);
-    }
+    cardsContainer.addElementFirst(cardElement);
 });
+
+/**
+ * Create an instance of DialogueWithImage for the card-view dialogue.
+ *
+ * @type {DialogueWithImage}
+ */
+const dialogueCardView = new DialogueWithImage(dialogueCardViewSelector);
 
 /**
  * Create an instance of DialogueWithForm for the profile-edit dialogue.
  *
  * @type {DialogueWithForm}
  */
-const dialogueProfileEdit = new DialogueWithForm(dialogueProfileEditSelector, {
-    formName: formProfileEditName,
-    onSubmitFunc: (inputsList) => {
-        userInfo.setUserInfo({
-            nameText: inputsList.name.value,
-            aboutText: inputsList.about.value
-        });
-    }
+const dialogueProfileEdit = new DialogueWithForm(dialogueProfileEditSelector, (inputsList) => {
+    userInfo.setUserInfo({
+        nameText: inputsList.name.value,
+        aboutText: inputsList.about.value
+    });
 });
 
 /**

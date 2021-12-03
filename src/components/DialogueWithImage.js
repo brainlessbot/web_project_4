@@ -2,43 +2,28 @@ import Dialogue from './Dialogue';
 
 class DialogueWithImage extends Dialogue {
     // Selectors and classes
-    imageSelector = '.dialogue__image';
-    captionSelector = '.dialogue__caption';
+    _imageSelector = '.dialogue__image';
+    _captionSelector = '.dialogue__caption';
 
     /**
-     * Initialize a new dialogue with image instance.
+     * Open the dialogue.
      *
-     * @constructor
-     * @param {string} dialogueSelector
      * @param {string} imageURL
      * @param {string} captionText
      * @returns {void}
      * @public
      */
-    constructor(dialogueSelector, {imageURL, captionText}) {
-        super(dialogueSelector);
-
-        this._imageURL = imageURL;
-        this._captionText = captionText;
-    }
-
-    /**
-     * Open the dialogue.
-     *
-     * @returns {void}
-     * @public
-     */
-    open() {
+    open({imageURL, captionText}) {
         super.open();
 
         // Dialogue's image
-        const imageElement = document.querySelector(this.imageSelector);
-        imageElement.src = this._imageURL;
-        imageElement.alt = this._captionText;
+        const imageElement = this._dialogueElement.querySelector(this._imageSelector);
+        imageElement.src = imageURL;
+        imageElement.alt = captionText;
 
         // Dialogue's caption
-        const captionElement = document.querySelector(this.captionSelector);
-        captionElement.textContent = this._captionText;
+        const captionElement = this._dialogueElement.querySelector(this._captionSelector);
+        captionElement.textContent = captionText;
     }
 }
 

@@ -3,12 +3,11 @@ export const buttonProfileEditSelector = '.profile__edit-button';
 
 export const cardsContainerSelector = '.cards__list';
 
+export const cardTemplateSelector = '#card-template';
+
 export const dialogueCardAddSelector = '.dialogue_type_card-add';
 export const dialogueCardViewSelector = '.dialogue_type_card-view';
 export const dialogueProfileEditSelector = '.dialogue_type_profile-edit';
-
-export const formCardAddName = 'card-add';
-export const formProfileEditName = 'profile-edit';
 
 export const initialCards = [
     {
