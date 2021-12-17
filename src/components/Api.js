@@ -56,7 +56,7 @@ class Api {
      * @public
      */
     likeCard(id) {
-        return this._sendRequest('PUT', '/cards/likes' + id).then(this._checkResponse);
+        return this._sendRequest('PUT', '/cards/likes/' + id).then(this._checkResponse);
     }
 
     /**
@@ -67,7 +67,7 @@ class Api {
      * @public
      */
     dislikeCard(id) {
-        return this._sendRequest('DELETE', '/cards/likes' + id).then(this._checkResponse);
+        return this._sendRequest('DELETE', '/cards/likes/' + id).then(this._checkResponse);
     }
 
     /**

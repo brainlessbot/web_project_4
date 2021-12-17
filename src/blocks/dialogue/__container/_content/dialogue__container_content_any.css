@@ -1,5 +1,5 @@
-.dialogue__container_content_form {
-    max-width: 430px;
+.dialogue__container_content_any {
+    width: 430px;
     padding: 34px 36px 36px;
     border-radius: 10px;
     background-color: #FFFFFF;

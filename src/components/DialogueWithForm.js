@@ -3,6 +3,7 @@ import Dialogue from './Dialogue';
 class DialogueWithForm extends Dialogue {
     // Selectors and classes
     _formSelector = '.dialogue__form';
+    _buttonSelector = '.dialogue__submit-button';
 
     /**
      * Initialize a dialogue with form instance.
@@ -17,6 +18,7 @@ class DialogueWithForm extends Dialogue {
         super(dialogueSelector);
 
         this._formElement = this._dialogueElement.querySelector(this._formSelector);
+        this._buttonElement = this._dialogueElement.querySelector(this._buttonSelector);
         this._submissionCallback = submissionCallback;
 
         // Bind the current instance to the event handler
@@ -45,6 +47,21 @@ class DialogueWithForm extends Dialogue {
             if (this._formElement.elements[inputName]) {
                 this._formElement.elements[inputName].value = inputsList[inputName];
             }
+        }
+    }
+
+    /**
+     * Set loading state; used when waiting for response from the server.
+     *
+     * @param {boolean} isLoading
+     * @returns {void}
+     * @public
+     */
+    setLoadingState(isLoading) {
+        if (isLoading) {
+            this._buttonElement.textContent = 'Saving...';
+        } else {
+            this._buttonElement.textContent = 'Save';
         }
     }
 

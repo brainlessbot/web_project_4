@@ -54,6 +54,7 @@ class Card {
         this._createFromTemplate();
         this._setEventListeners();
         this._checkPermissions();
+        this.updateLikes();
 
         // Card's title
         this._titleElement.textContent = this._name;
@@ -61,9 +62,6 @@ class Card {
         // Card's image
         this._imageElement.alt = this._name;
         this._imageElement.src = this._link;
-
-        // Card's like counter
-        this._likeCounterElement.textContent = this._likes.length;
 
         return this._cardElement;
     }
@@ -76,6 +74,24 @@ class Card {
      */
     removeElement() {
         this._cardElement.remove();
+    }
+
+    /**
+     * Update the likes of the card.
+     *
+     * @param {Array} likes
+     * @returns {void}
+     * @public
+     */
+    updateLikes({likes} = {}) {
+        // Check if there's an updated response from the server
+        this._likes = likes || this._likes;
+
+        // Check if the logged-in user has liked the card, and change its' state accordingly
+        this._isLiked() ? this._markLiked() : this._markDisliked();
+
+        // Update the counter
+        this._likeCounterElement.textContent = this._likes.length;
     }
 
     /**
@@ -106,7 +122,7 @@ class Card {
      */
     _setEventListeners() {
         this._imageElement.addEventListener('click', this._handleImageClick);
-        this._likeButtonElement.addEventListener('click', () => this._handleLikeClick(this._id));
+        this._likeButtonElement.addEventListener('click', () => this._handleLikeClick(this._id, this._isLiked()));
         this._removeButtonElement.addEventListener('click', () => this._handleRemoveClick(this._id));
     }
 
@@ -121,6 +137,36 @@ class Card {
         if (this._owner._id !== this._userId) {
             this._removeButtonElement.remove();
         }
+    }
+
+    /**
+     * Check whether the currently logged-in user has liked the card.
+     *
+     * @returns {boolean}
+     * @private
+     */
+    _isLiked() {
+        return this._likes.some(userData => userData._id === this._userId);
+    }
+
+    /**
+     * Mark the card as liked.
+     *
+     * @returns {void}
+     * @private
+     */
+    _markLiked() {
+        this._likeButtonElement.classList.add(this._likeButtonActiveClass);
+    }
+
+    /**
+     * Mark the card as disliked.
+     *
+     * @returns {void}
+     * @private
+     */
+    _markDisliked() {
+        this._likeButtonElement.classList.remove(this._likeButtonActiveClass);
     }
 }
 

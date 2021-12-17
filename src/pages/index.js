@@ -1,5 +1,6 @@
 import Api from '../components/Api';
 import Card from '../components/Card';
+import DialogueWithConfirmation from '../components/DialogueWithConfirmation';
 import DialogueWithForm from '../components/DialogueWithForm';
 import DialogueWithImage from '../components/DialogueWithImage';
 import FormValidator from '../components/FormValidator';
@@ -9,12 +10,17 @@ import {
     apiAuthKey,
     apiBaseUrl,
     buttonCardAddSelector,
+    buttonProfileChangePictureSelector,
     buttonProfileEditSelector,
     cardsContainerSelector,
     cardTemplateSelector,
     dialogueCardAddSelector,
+    dialogueCardRemoveSelector,
     dialogueCardViewSelector,
+    dialogueProfileChangePictureSelector,
     dialogueProfileEditSelector,
+    errorSelector,
+    errorVisibleClass,
     userInfoAboutSelector,
     userInfoAvatarSelector,
     userInfoNameSelector,
@@ -52,7 +58,9 @@ const cardsContainer = new Section(
  *
  * @type {DialogueWithForm}
  */
-const dialogueCardAdd = new DialogueWithForm(dialogueCardAddSelector, (inputsList) => {
+const dialogueCardAdd = new DialogueWithForm(dialogueCardAddSelector, inputsList => {
+    dialogueCardAdd.setLoadingState(true);
+
     api.addCard({
         name: inputsList.title.value,
         link: inputsList.image.value
@@ -61,8 +69,18 @@ const dialogueCardAdd = new DialogueWithForm(dialogueCardAddSelector, (inputsLis
             createCard(response)
         ))
         .catch(handleServerError)
-        .finally(() => dialogueCardAdd.close());
+        .finally(() => {
+            dialogueCardAdd.close();
+            dialogueCardAdd.setLoadingState(false);
+        });
 });
+
+/**
+ * Create an instance of DialogueWithConfirmation for the card-remove dialogue.
+ *
+ * @type {DialogueWithConfirmation}
+ */
+const dialogueCardRemove = new DialogueWithConfirmation(dialogueCardRemoveSelector);
 
 /**
  * Create an instance of DialogueWithImage for the card-view dialogue.
@@ -72,18 +90,42 @@ const dialogueCardAdd = new DialogueWithForm(dialogueCardAddSelector, (inputsLis
 const dialogueCardView = new DialogueWithImage(dialogueCardViewSelector);
 
 /**
+ * Create an instance of DialogueWithForm for the profile-change-picture dialogue.
+ *
+ * @type {DialogueWithForm}
+ */
+const dialogueProfileChangePicture = new DialogueWithForm(dialogueProfileChangePictureSelector, inputsList => {
+    dialogueProfileChangePicture.setLoadingState(true);
+
+    api.updateUserAvatar({
+        avatar: inputsList.avatar.value
+    })
+        .then(response => userInfo.setUserInfo(response))
+        .catch(handleServerError)
+        .finally(() => {
+            dialogueProfileChangePicture.close();
+            dialogueProfileChangePicture.setLoadingState(false);
+        });
+});
+
+/**
  * Create an instance of DialogueWithForm for the profile-edit dialogue.
  *
  * @type {DialogueWithForm}
  */
-const dialogueProfileEdit = new DialogueWithForm(dialogueProfileEditSelector, (inputsList) => {
+const dialogueProfileEdit = new DialogueWithForm(dialogueProfileEditSelector, inputsList => {
+    dialogueProfileEdit.setLoadingState(true);
+
     api.updateUserInfo({
         name: inputsList.name.value,
         about: inputsList.about.value
     })
         .then(response => userInfo.setUserInfo(response))
         .catch(handleServerError)
-        .finally(() => dialogueProfileEdit.close());
+        .finally(() => {
+            dialogueProfileEdit.close();
+            dialogueProfileEdit.setLoadingState(false);
+        });
 });
 
 /**
@@ -109,7 +151,19 @@ const userInfo = new UserInfo({
  * @param {Promise} error
  * @returns {void}
  */
-const handleServerError = error => console.error(error);
+const handleServerError = error => {
+    const errorElement = document.querySelector(errorSelector);
+
+    // Set error's information
+    errorElement.textContent = error;
+    errorElement.classList.add(errorVisibleClass);
+
+    // Hide the error after 5 seconds
+    setTimeout(() => errorElement.classList.remove(errorVisibleClass), 5 * 1000);
+
+    // Also, log the error to the console
+    console.error(error);
+};
 
 /**
  * Get the initial data from the server, and update the page accordingly.
@@ -131,7 +185,7 @@ const loadInitialData = () => {
             cardsContainer.renderItems(response[1]);
         })
         .catch(handleServerError);
-}
+};
 
 /**
  * Create an instance of FormValidator for each form on the page.
@@ -145,7 +199,7 @@ const addValidationToForms = () => {
         const validatorObj = new FormValidator(formElement, validationSettings);
         validatorObj.enableValidation();
     });
-}
+};
 
 /**
  * Create a card which opens a dialogue when clicked.
@@ -153,18 +207,30 @@ const addValidationToForms = () => {
  * @param {Object} cardData
  * @returns {Element}
  */
-const createCard = (cardData) => {
+const createCard = cardData => {
     const card = new Card(
         cardData,
         cardTemplateSelector,
         {
             handleImageClick: () => dialogueCardView.open(cardData),
-            handleLikeClick: (cardId) => {
+            handleLikeClick: (cardId, isLiked) => {
+                if (isLiked) {
+                    api.dislikeCard(cardId)
+                        .then(response => card.updateLikes(response))
+                        .catch(handleServerError);
+                } else {
+                    api.likeCard(cardId)
+                        .then(response => card.updateLikes(response))
+                        .catch(handleServerError);
+                }
             },
-            handleRemoveClick: (cardId) => {
-                api.deleteCard(cardId)
-                    .then(() => card.removeElement())
-                    .catch(handleServerError);
+            handleRemoveClick: cardId => {
+                dialogueCardRemove.open(() => {
+                    api.deleteCard(cardId)
+                        .then(() => card.removeElement())
+                        .catch(handleServerError)
+                        .finally(() => dialogueCardRemove.close());
+                });
             }
         },
         userInfo.getUserInfo().id
@@ -182,6 +248,13 @@ const createCard = (cardData) => {
 // Connect the card-add button to the related dialogue
 const buttonCardAdd = document.querySelector(buttonCardAddSelector);
 buttonCardAdd.addEventListener('click', () => dialogueCardAdd.open());
+
+// Connect the profile-change-picture button to the related dialogue
+const buttonProfileChangePicture = document.querySelector(buttonProfileChangePictureSelector);
+buttonProfileChangePicture.addEventListener('click', () => {
+    dialogueProfileChangePicture.setInputValues(userInfo.getUserInfo());
+    dialogueProfileChangePicture.open();
+});
 
 // Connect the profile-edit button to the related dialogue
 const buttonProfileEdit = document.querySelector(buttonProfileEditSelector);

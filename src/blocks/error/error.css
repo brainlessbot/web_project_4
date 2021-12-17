@@ -1,0 +1,16 @@
+.error {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 4px;
+    background-color: rgba(255, 0, 0, .6);
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 22px;
+    text-align: center;
+    color: #FFFFFF;
+    transition: opacity .1s linear;
+    opacity: 0;
+    z-index: 2;
+}

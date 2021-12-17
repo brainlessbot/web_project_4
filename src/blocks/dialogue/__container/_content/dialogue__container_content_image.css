@@ -1,9 +1,9 @@
-.dialogue__container_content_card {
+.dialogue__container_content_image {
     max-width: 75vw;
 }
 
 @media screen and (max-width: 960px) {
-    .dialogue__container_content_card {
+    .dialogue__container_content_image {
         max-width: 90vw;
     }
 }

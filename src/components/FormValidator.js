@@ -24,7 +24,7 @@ class FormValidator {
         this._toggleSubmitButtonState();
 
         // Go through the inputs list, and attach to each an event listener which watches for changes
-        this._inputsList.forEach((inputElement) => {
+        this._inputsList.forEach(inputElement => {
             inputElement.addEventListener('input', () => {
                 this._checkInputValidity(inputElement);
                 this._toggleSubmitButtonState();
@@ -127,7 +127,7 @@ class FormValidator {
      * @private
      */
     _hasInvalidInput() {
-        return this._inputsList.some((inputElement) => !inputElement.validity.valid);
+        return this._inputsList.some(inputElement => !inputElement.validity.valid);
     }
 
     /**
