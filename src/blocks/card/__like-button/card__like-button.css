@@ -1,6 +1,7 @@
 .card__like-button {
     min-width: 21px;
     height: 19px;
+    margin-bottom: 3px;
     border: none;
     background-color: transparent;
     background-image: url('../../../images/icon-like-outlined.svg');

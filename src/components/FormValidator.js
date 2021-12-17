@@ -1,6 +1,6 @@
 class FormValidator {
     /**
-     * Initialize a new form validator instance.
+     * Initialize a form validator instance.
      *
      * @constructor
      * @param {Element} formElement

@@ -8,22 +8,22 @@ class DialogueWithImage extends Dialogue {
     /**
      * Open the dialogue.
      *
-     * @param {string} imageURL
-     * @param {string} captionText
+     * @param {string} name
+     * @param {string} link
      * @returns {void}
      * @public
      */
-    open({imageURL, captionText}) {
+    open({name, link}) {
         super.open();
 
         // Dialogue's image
         const imageElement = this._dialogueElement.querySelector(this._imageSelector);
-        imageElement.src = imageURL;
-        imageElement.alt = captionText;
+        imageElement.alt = name;
+        imageElement.src = link;
 
         // Dialogue's caption
         const captionElement = this._dialogueElement.querySelector(this._captionSelector);
-        captionElement.textContent = captionText;
+        captionElement.textContent = name;
     }
 }
 

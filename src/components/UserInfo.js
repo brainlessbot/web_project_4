@@ -1,16 +1,21 @@
 class UserInfo {
+    // Default information
+    _id = undefined;
+
     /**
-     * Initialize a new user info instance.
+     * Initialize a user info instance.
      *
      * @constructor
      * @param {string} nameSelector
      * @param {string} aboutSelector
+     * @param {string} avatarSelector
      * @returns {void}
      * @public
      */
-    constructor({nameSelector, aboutSelector}) {
+    constructor({nameSelector, aboutSelector, avatarSelector}) {
         this._nameElement = document.querySelector(nameSelector);
         this._aboutElement = document.querySelector(aboutSelector);
+        this._avatarElement = document.querySelector(avatarSelector);
     }
 
     /**
@@ -21,22 +26,28 @@ class UserInfo {
      */
     getUserInfo() {
         return {
-            nameText: this._nameElement.textContent,
-            aboutText: this._aboutElement.textContent
+            id: this._id,
+            name: this._nameElement.textContent,
+            about: this._aboutElement.textContent,
+            avatar: this._avatarElement.src
         };
     }
 
     /**
      * Update user's information.
      *
-     * @param {string} nameText
-     * @param {string} aboutText
+     * @param {string} _id
+     * @param {string} name
+     * @param {string} about
+     * @param {string} avatar
      * @returns {void}
      * @public
      */
-    setUserInfo({nameText, aboutText}) {
-        this._nameElement.textContent = nameText;
-        this._aboutElement.textContent = aboutText;
+    setUserInfo({_id, name, about, avatar}) {
+        this._id = _id || this._id;
+        this._nameElement.textContent = name;
+        this._aboutElement.textContent = about;
+        this._avatarElement.src = avatar;
     }
 }
 

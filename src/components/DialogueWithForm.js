@@ -5,19 +5,19 @@ class DialogueWithForm extends Dialogue {
     _formSelector = '.dialogue__form';
 
     /**
-     * Initialize a new dialogue with form instance.
+     * Initialize a dialogue with form instance.
      *
      * @constructor
      * @param {string} dialogueSelector
-     * @param {Function} onSubmitFunc
+     * @param {Function} submissionCallback
      * @returns {void}
      * @public
      */
-    constructor(dialogueSelector, onSubmitFunc) {
+    constructor(dialogueSelector, submissionCallback) {
         super(dialogueSelector);
 
         this._formElement = this._dialogueElement.querySelector(this._formSelector);
-        this._onSubmitFunc = onSubmitFunc;
+        this._submissionCallback = submissionCallback;
 
         // Bind the current instance to the event handler
         this._handleFormSubmission = this._handleFormSubmission.bind(this);
@@ -42,7 +42,9 @@ class DialogueWithForm extends Dialogue {
      */
     setInputValues(inputsList) {
         for (const inputName in inputsList) {
-            this._formElement.elements[inputName].value = inputsList[inputName];
+            if (this._formElement.elements[inputName]) {
+                this._formElement.elements[inputName].value = inputsList[inputName];
+            }
         }
     }
 
@@ -77,9 +79,7 @@ class DialogueWithForm extends Dialogue {
      */
     _handleFormSubmission(event) {
         event.preventDefault();
-
-        this._onSubmitFunc(this._getInputValues());
-        this.close();
+        this._submissionCallback(this._getInputValues());
     }
 
     /**

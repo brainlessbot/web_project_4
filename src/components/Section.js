@@ -1,28 +1,26 @@
 class Section {
     /**
-     * Initialize a new section instance.
+     * Initialize a section instance.
      *
      * @constructor
-     * @param {Array} itemsList
-     * @param {Function} rendererFunc
      * @param {string} containerSelector
+     * @param {Function} rendererCallback
      * @returns {void}
      * @public
      */
-    constructor({itemsList, rendererFunc}, containerSelector) {
-        this._itemsList = itemsList;
-        this._rendererFunc = rendererFunc;
+    constructor(containerSelector, rendererCallback) {
         this._containerElement = document.querySelector(containerSelector);
+        this._rendererCallback = rendererCallback;
     }
 
     /**
-     * Render all items which were passed at initialization.
+     * Render items from list.
      *
      * @returns {void}
      * @public
      */
-    renderAllItems() {
-        this._itemsList.forEach((item) => this._rendererFunc(item));
+    renderItems(itemsList) {
+        itemsList.forEach(item => this._rendererCallback(item));
     }
 
     /**

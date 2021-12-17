@@ -5,7 +5,7 @@ class Dialogue {
     _openedClass = 'dialogue_opened';
 
     /**
-     * Initialize a new dialogue instance.
+     * Initialize a dialogue instance.
      *
      * @constructor
      * @param {string} dialogueSelector

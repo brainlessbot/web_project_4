@@ -1,42 +1,18 @@
+export const apiBaseUrl = 'https://around.nomoreparties.co/v1/group-12';
+export const apiAuthKey = '190e9486-cf84-4370-aa42-80831152ad82';
+
 export const buttonCardAddSelector = '.profile__add-button';
 export const buttonProfileEditSelector = '.profile__edit-button';
 
 export const cardsContainerSelector = '.cards__list';
-
 export const cardTemplateSelector = '#card-template';
 
 export const dialogueCardAddSelector = '.dialogue_type_card-add';
 export const dialogueCardViewSelector = '.dialogue_type_card-view';
 export const dialogueProfileEditSelector = '.dialogue_type_profile-edit';
 
-export const initialCards = [
-    {
-        titleText: 'Broadway Street, New York',
-        imageURL: new URL('../images/photo-broadway-street.jpg', import.meta.url)
-    },
-    {
-        titleText: 'Hollywood, Los Angeles',
-        imageURL: new URL('../images/photo-hollywood.jpg', import.meta.url)
-    },
-    {
-        titleText: 'Lombard Street, San Francisco',
-        imageURL: new URL('../images/photo-lombard-street.jpg', import.meta.url)
-    },
-    {
-        titleText: 'Space Needle, Seattle',
-        imageURL: new URL('../images/photo-space-needle.jpg', import.meta.url)
-    },
-    {
-        titleText: 'Las Vegas Strip',
-        imageURL: new URL('../images/photo-vegas-strip.jpg', import.meta.url)
-    },
-    {
-        titleText: 'Kennedy Space Center, Florida',
-        imageURL: new URL('../images/photo-kennedy-space-center.jpg', import.meta.url)
-    }
-];
-
 export const userInfoAboutSelector = '.profile__subtitle';
+export const userInfoAvatarSelector = '.profile__avatar';
 export const userInfoNameSelector = '.profile__title-text';
 
 export const validationSettings = {

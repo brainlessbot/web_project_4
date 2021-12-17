@@ -4,57 +4,87 @@ class Card {
     _titleSelector = '.card__title';
     _imageSelector = '.card__image';
     _likeButtonSelector = '.card__like-button';
+    _likeCounterSelector = '.card__like-counter';
     _removeButtonSelector = '.card__remove-button';
     _likeButtonActiveClass = 'card__like-button_active';
 
     /**
-     * Initialize new card instance.
+     * Initialize a card instance.
      *
      * @constructor
-     * @param {string} titleText
-     * @param {string} imageURL
+     * @param {string} _id
+     * @param {string} name
+     * @param {string} link
+     * @param {Array} likes
+     * @param {Object} owner
      * @param {string} templateSelector
-     * @param {Function} onClickFunc
+     * @param {Function} handleImageClick
+     * @param {Function} handleLikeClick
+     * @param {Function} handleRemoveClick
+     * @param {string} userId
      * @public
      */
-    constructor({titleText, imageURL}, templateSelector, onClickFunc) {
-        this._titleText = titleText;
-        this._imageURL = imageURL;
-        this._templateSelector = templateSelector;
-        this._onClickFunc = onClickFunc;
+    constructor({_id, name, link, likes, owner}, templateSelector, {handleImageClick, handleLikeClick, handleRemoveClick}, userId) {
+        // Card's information
+        this._id = _id;
+        this._name = name;
+        this._link = link;
+        this._likes = likes;
+        this._owner = owner;
 
-        // Bind the current instance to the event handlers
-        this._handleLikeClicking = this._handleLikeClicking.bind(this);
-        this._handleRemoveClicking = this._handleRemoveClicking.bind(this);
+        // Card's template
+        this._templateSelector = templateSelector;
+
+        // Event handling callbacks
+        this._handleImageClick = handleImageClick;
+        this._handleLikeClick = handleLikeClick;
+        this._handleRemoveClick = handleRemoveClick;
+
+        // The id of the logged-in user
+        this._userId = userId;
     }
 
     /**
-     * Generate and return a card element.
+     * Generate a card element.
      *
      * @returns {Element}
      * @public
      */
     generateElement() {
-        this._createElementFromTemplate();
+        this._createFromTemplate();
         this._setEventListeners();
+        this._checkPermissions();
 
         // Card's title
-        this._titleElement.textContent = this._titleText;
+        this._titleElement.textContent = this._name;
 
         // Card's image
-        this._imageElement.src = this._imageURL;
-        this._imageElement.alt = this._titleText;
+        this._imageElement.alt = this._name;
+        this._imageElement.src = this._link;
+
+        // Card's like counter
+        this._likeCounterElement.textContent = this._likes.length;
 
         return this._cardElement;
     }
 
     /**
-     * Create a new card element from template.
+     * Remove a card element.
+     *
+     * @returns {void}
+     * @public
+     */
+    removeElement() {
+        this._cardElement.remove();
+    }
+
+    /**
+     * Create a card element from defined template.
      *
      * @returns {void}
      * @private
      */
-    _createElementFromTemplate() {
+    _createFromTemplate() {
         this._cardElement = document
             .querySelector(this._templateSelector)
             .content
@@ -64,39 +94,33 @@ class Card {
         this._titleElement = this._cardElement.querySelector(this._titleSelector);
         this._imageElement = this._cardElement.querySelector(this._imageSelector);
         this._likeButtonElement = this._cardElement.querySelector(this._likeButtonSelector);
+        this._likeCounterElement = this._cardElement.querySelector(this._likeCounterSelector);
         this._removeButtonElement = this._cardElement.querySelector(this._removeButtonSelector);
     }
 
     /**
-     * Add event listeners to the card.
+     * Set event listeners for card's element.
      *
      * @returns {void}
      * @private
      */
     _setEventListeners() {
-        this._imageElement.addEventListener('click', this._onClickFunc);
-        this._likeButtonElement.addEventListener('click', this._handleLikeClicking);
-        this._removeButtonElement.addEventListener('click', this._handleRemoveClicking);
+        this._imageElement.addEventListener('click', this._handleImageClick);
+        this._likeButtonElement.addEventListener('click', () => this._handleLikeClick(this._id));
+        this._removeButtonElement.addEventListener('click', () => this._handleRemoveClick(this._id));
     }
 
     /**
-     * Handle card like clicking event.
+     * Check whether the currently logged-in user is the owner of the card.
      *
      * @returns {void}
      * @private
      */
-    _handleLikeClicking() {
-        this._likeButtonElement.classList.toggle(this._likeButtonActiveClass);
-    }
-
-    /**
-     * Handle card remove clicking event.
-     *
-     * @returns {void}
-     * @private
-     */
-    _handleRemoveClicking() {
-        this._cardElement.remove();
+    _checkPermissions() {
+        // If not, disable the remove button
+        if (this._owner._id !== this._userId) {
+            this._removeButtonElement.remove();
+        }
     }
 }
 
