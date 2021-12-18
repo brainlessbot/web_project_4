@@ -7,8 +7,6 @@
 </head>
 <body class="body">
 <div class="page">
-    <div class="error"></div>
-
     <header class="header page__header">
         <div class="header__logo"></div>
     </header>
@@ -53,8 +51,8 @@
         <h2 class="dialogue__title">Change profile picture</h2>
 
         <form id="profile-change-picture" class="dialogue__form" novalidate>
-            <input type="url" name="avatar" class="dialogue__form-field dialogue__form-field_type_avatar" placeholder="Avatar link"
-                   autocomplete="off" required>
+            <input type="url" name="avatar" class="dialogue__form-field dialogue__form-field_type_avatar"
+                   placeholder="Avatar link" autocomplete="off" required>
 
             <span class="dialogue__form-error profile-change-picture-avatar-error"></span>
 
@@ -70,13 +68,13 @@
         <h2 class="dialogue__title">Edit profile</h2>
 
         <form id="profile-edit" class="dialogue__form" novalidate>
-            <input type="text" name="name" class="dialogue__form-field dialogue__form-field_type_name" placeholder="Name"
-                   minlength="2" maxlength="40" autocomplete="off" required>
+            <input type="text" name="name" class="dialogue__form-field dialogue__form-field_type_name"
+                   placeholder="Name" minlength="2" maxlength="40" autocomplete="off" required>
 
             <span class="dialogue__form-error profile-edit-name-error"></span>
 
-            <input type="text" name="about" class="dialogue__form-field dialogue__form-field_type_about" placeholder="About"
-                   minlength="2" maxlength="200" autocomplete="off" required>
+            <input type="text" name="about" class="dialogue__form-field dialogue__form-field_type_about"
+                   placeholder="About" minlength="2" maxlength="200" autocomplete="off" required>
 
             <span class="dialogue__form-error profile-edit-about-error"></span>
 
@@ -92,15 +90,15 @@
         <h2 class="dialogue__title">New card</h2>
 
         <form id="card-add" class="dialogue__form" novalidate>
-            <input type="text" name="title" class="dialogue__form-field dialogue__form-field_type_title" placeholder="Title"
-                   minlength="1" maxlength="30" autocomplete="off" required>
+            <input type="text" name="name" class="dialogue__form-field dialogue__form-field_type_title"
+                   placeholder="Name" minlength="1" maxlength="30" autocomplete="off" required>
 
-            <span class="dialogue__form-error card-add-title-error"></span>
+            <span class="dialogue__form-error card-add-name-error"></span>
 
-            <input type="url" name="image" class="dialogue__form-field dialogue__form-field_type_image" placeholder="Image link"
-                   autocomplete="off" required>
+            <input type="url" name="link" class="dialogue__form-field dialogue__form-field_type_image"
+                   placeholder="Image link" autocomplete="off" required>
 
-            <span class="dialogue__form-error card-add-image-error"></span>
+            <span class="dialogue__form-error card-add-link-error"></span>
 
             <button type="submit" class="dialogue__submit-button">Save</button>
         </form>
@@ -124,6 +122,14 @@
         <img src="undefined" alt="undefined" class="dialogue__image">
 
         <p class="dialogue__caption"></p>
+    </div>
+</div>
+
+<div class="dialogue dialogue_type_error dialogue_upper">
+    <div class="dialogue__container dialogue__container_content_any">
+        <p class="dialogue__paragraph dialogue__paragraph_primary"></p>
+
+        <p class="dialogue__paragraph dialogue__paragraph_secondary">This message will disappear in <span class="dialogue__paragraph_counter"></span> seconds.</p>
     </div>
 </div>
 

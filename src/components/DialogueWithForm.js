@@ -39,6 +39,7 @@ class DialogueWithForm extends Dialogue {
     /**
      * Set default input values.
      *
+     * @param {Object} inputsList
      * @returns {void}
      * @public
      */
@@ -100,13 +101,20 @@ class DialogueWithForm extends Dialogue {
     }
 
     /**
-     * Get all the inputs of the form.
+     * Get all input values.
      *
-     * @returns {Array}
+     * @returns {Object}
      * @private
      */
     _getInputValues() {
-        return this._formElement.elements;
+        const inputsList = Array.from(this._formElement.elements);
+        const inputValues = {};
+
+        inputsList.forEach(inputElement => {
+            inputValues[inputElement.name] = inputElement.value;
+        });
+
+        return inputValues;
     }
 }
 

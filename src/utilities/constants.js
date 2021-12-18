@@ -11,11 +11,9 @@ export const cardTemplateSelector = '#card-template';
 export const dialogueCardAddSelector = '.dialogue_type_card-add';
 export const dialogueCardRemoveSelector = '.dialogue_type_card-remove';
 export const dialogueCardViewSelector = '.dialogue_type_card-view';
+export const dialogueErrorSelector = '.dialogue_type_error';
 export const dialogueProfileChangePictureSelector = '.dialogue_type_profile-change-picture';
 export const dialogueProfileEditSelector = '.dialogue_type_profile-edit';
-
-export const errorSelector = '.error';
-export const errorVisibleClass = 'error_visible';
 
 export const userInfoAboutSelector = '.profile__subtitle';
 export const userInfoAvatarSelector = '.profile__avatar-image';

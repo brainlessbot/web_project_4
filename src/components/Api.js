@@ -20,7 +20,7 @@ class Api {
      * @public
      */
     getAllCards() {
-        return this._sendRequest('GET', '/cards').then(this._checkResponse);
+        return this._sendRequest('GET', '/cards');
     }
 
     /**
@@ -34,7 +34,7 @@ class Api {
     addCard({name, link}) {
         return this._sendRequest('POST', '/cards', {
             body: JSON.stringify({name, link})
-        }).then(this._checkResponse);
+        });
     }
 
     /**
@@ -45,7 +45,7 @@ class Api {
      * @public
      */
     deleteCard(id) {
-        return this._sendRequest('DELETE', '/cards/' + id).then(this._checkResponse);
+        return this._sendRequest('DELETE', '/cards/' + id);
     }
 
     /**
@@ -56,7 +56,7 @@ class Api {
      * @public
      */
     likeCard(id) {
-        return this._sendRequest('PUT', '/cards/likes/' + id).then(this._checkResponse);
+        return this._sendRequest('PUT', '/cards/likes/' + id);
     }
 
     /**
@@ -67,7 +67,7 @@ class Api {
      * @public
      */
     dislikeCard(id) {
-        return this._sendRequest('DELETE', '/cards/likes/' + id).then(this._checkResponse);
+        return this._sendRequest('DELETE', '/cards/likes/' + id);
     }
 
     /**
@@ -77,7 +77,7 @@ class Api {
      * @public
      */
     getUserInfo() {
-        return this._sendRequest('GET', '/users/me').then(this._checkResponse);
+        return this._sendRequest('GET', '/users/me');
     }
 
     /**
@@ -91,7 +91,7 @@ class Api {
     updateUserInfo({name, about}) {
         return this._sendRequest('PATCH', '/users/me', {
             body: JSON.stringify({name, about})
-        }).then(this._checkResponse);
+        });
     }
 
     /**
@@ -104,7 +104,7 @@ class Api {
     updateUserAvatar({avatar}) {
         return this._sendRequest('PATCH', '/users/me/avatar', {
             body: JSON.stringify({avatar})
-        }).then(this._checkResponse);
+        });
     }
 
     /**
@@ -124,13 +124,13 @@ class Api {
                 'Content-Type': 'application/json'
             },
             ...options
-        });
+        }).then(this._checkResponse);
     }
 
     /**
      * Handle checking the response from the server.
      *
-     * @param {Response} response
+     * @param {Promise} response
      * @returns {Promise}
      * @private
      */

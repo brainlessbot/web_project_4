@@ -6,6 +6,20 @@ class DialogueWithImage extends Dialogue {
     _captionSelector = '.dialogue__caption';
 
     /**
+     * Initialize a dialogue with image instance.
+     *
+     * @constructor
+     * @param {string} dialogueSelector
+     * @returns {void}
+     * @public
+     */
+    constructor(dialogueSelector) {
+        super(dialogueSelector);
+        this._imageElement = this._dialogueElement.querySelector(this._imageSelector);
+        this._captionElement = this._dialogueElement.querySelector(this._captionSelector);
+    }
+
+    /**
      * Open the dialogue.
      *
      * @param {string} name
@@ -17,13 +31,11 @@ class DialogueWithImage extends Dialogue {
         super.open();
 
         // Dialogue's image
-        const imageElement = this._dialogueElement.querySelector(this._imageSelector);
-        imageElement.alt = name;
-        imageElement.src = link;
+        this._imageElement.alt = name;
+        this._imageElement.src = link;
 
         // Dialogue's caption
-        const captionElement = this._dialogueElement.querySelector(this._captionSelector);
-        captionElement.textContent = name;
+        this._captionElement.textContent = name;
     }
 }
 

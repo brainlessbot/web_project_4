@@ -21,6 +21,7 @@
 @import url('../blocks/content/__profile/content__profile.css');
 @import url('../blocks/dialogue/dialogue.css');
 @import url('../blocks/dialogue/_opened/dialogue_opened.css');
+@import url('../blocks/dialogue/_upper/dialogue_upper.css');
 @import url('../blocks/dialogue/__caption/dialogue__caption.css');
 @import url('../blocks/dialogue/__close-button/dialogue__close-button.css');
 @import url('../blocks/dialogue/__container/dialogue__container.css');
@@ -30,14 +31,14 @@
 @import url('../blocks/dialogue/__form-error/_visible/dialogue__form-error_visible.css');
 @import url('../blocks/dialogue/__form-field/dialogue__form-field.css');
 @import url('../blocks/dialogue/__form-field/_has-error/dialogue__form-field_has-error.css');
+@import url('../blocks/dialogue/__paragraph/dialogue__paragraph.css');
+@import url('../blocks/dialogue/__paragraph/_secondary/dialogue__paragraph_secondary.css');
 @import url('../blocks/dialogue/__image/dialogue__image.css');
 @import url('../blocks/dialogue/__submit-button/dialogue__submit-button.css');
 @import url('../blocks/dialogue/__submit-button/_compact/dialogue__submit-button_compact.css');
 @import url('../blocks/dialogue/__submit-button/_disabled/dialogue__submit-button_disabled.css');
 @import url('../blocks/dialogue/__title/dialogue__title.css');
 @import url('../blocks/dialogue/__title/_compact/dialogue__title_compact.css');
-@import url('../blocks/error/error.css');
-@import url('../blocks/error/_visible/error_visible.css');
 @import url('../blocks/footer/footer.css');
 @import url('../blocks/footer/__copyright/footer__copyright.css');
 @import url('../blocks/header/header.css');

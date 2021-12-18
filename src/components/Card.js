@@ -24,7 +24,12 @@ class Card {
      * @param {string} userId
      * @public
      */
-    constructor({_id, name, link, likes, owner}, templateSelector, {handleImageClick, handleLikeClick, handleRemoveClick}, userId) {
+    constructor(
+        {_id, name, link, likes, owner},
+        templateSelector,
+        {handleImageClick, handleLikeClick, handleRemoveClick},
+        userId
+    ) {
         // Card's information
         this._id = _id;
         this._name = name;

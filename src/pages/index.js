@@ -1,6 +1,7 @@
 import Api from '../components/Api';
 import Card from '../components/Card';
 import DialogueWithConfirmation from '../components/DialogueWithConfirmation';
+import DialogueWithError from '../components/DialogueWithError';
 import DialogueWithForm from '../components/DialogueWithForm';
 import DialogueWithImage from '../components/DialogueWithImage';
 import FormValidator from '../components/FormValidator';
@@ -17,10 +18,9 @@ import {
     dialogueCardAddSelector,
     dialogueCardRemoveSelector,
     dialogueCardViewSelector,
+    dialogueErrorSelector,
     dialogueProfileChangePictureSelector,
     dialogueProfileEditSelector,
-    errorSelector,
-    errorVisibleClass,
     userInfoAboutSelector,
     userInfoAvatarSelector,
     userInfoNameSelector,
@@ -61,18 +61,13 @@ const cardsContainer = new Section(
 const dialogueCardAdd = new DialogueWithForm(dialogueCardAddSelector, inputsList => {
     dialogueCardAdd.setLoadingState(true);
 
-    api.addCard({
-        name: inputsList.title.value,
-        link: inputsList.image.value
-    })
-        .then(response => cardsContainer.addElementFirst(
-            createCard(response)
-        ))
-        .catch(handleServerError)
-        .finally(() => {
+    api.addCard(inputsList)
+        .then(response => {
+            cardsContainer.addElementFirst(createCard(response));
             dialogueCardAdd.close();
-            dialogueCardAdd.setLoadingState(false);
-        });
+        })
+        .catch(error => dialogueError.open(error))
+        .finally(() => dialogueCardAdd.setLoadingState(false));
 });
 
 /**
@@ -90,6 +85,13 @@ const dialogueCardRemove = new DialogueWithConfirmation(dialogueCardRemoveSelect
 const dialogueCardView = new DialogueWithImage(dialogueCardViewSelector);
 
 /**
+ * Create an instance of DialogueWithError for the error dialogue.
+ *
+ * @type {DialogueWithError}
+ */
+const dialogueError = new DialogueWithError(dialogueErrorSelector);
+
+/**
  * Create an instance of DialogueWithForm for the profile-change-picture dialogue.
  *
  * @type {DialogueWithForm}
@@ -97,15 +99,13 @@ const dialogueCardView = new DialogueWithImage(dialogueCardViewSelector);
 const dialogueProfileChangePicture = new DialogueWithForm(dialogueProfileChangePictureSelector, inputsList => {
     dialogueProfileChangePicture.setLoadingState(true);
 
-    api.updateUserAvatar({
-        avatar: inputsList.avatar.value
-    })
-        .then(response => userInfo.setUserInfo(response))
-        .catch(handleServerError)
-        .finally(() => {
+    api.updateUserAvatar(inputsList)
+        .then(response => {
+            userInfo.setUserInfo(response);
             dialogueProfileChangePicture.close();
-            dialogueProfileChangePicture.setLoadingState(false);
-        });
+        })
+        .catch(error => dialogueError.open(error))
+        .finally(() => dialogueProfileChangePicture.setLoadingState(false));
 });
 
 /**
@@ -116,16 +116,13 @@ const dialogueProfileChangePicture = new DialogueWithForm(dialogueProfileChangeP
 const dialogueProfileEdit = new DialogueWithForm(dialogueProfileEditSelector, inputsList => {
     dialogueProfileEdit.setLoadingState(true);
 
-    api.updateUserInfo({
-        name: inputsList.name.value,
-        about: inputsList.about.value
-    })
-        .then(response => userInfo.setUserInfo(response))
-        .catch(handleServerError)
-        .finally(() => {
+    api.updateUserInfo(inputsList)
+        .then(response => {
+            userInfo.setUserInfo(response);
             dialogueProfileEdit.close();
-            dialogueProfileEdit.setLoadingState(false);
-        });
+        })
+        .catch(error => dialogueError.open(error))
+        .finally(() => dialogueProfileEdit.setLoadingState(false));
 });
 
 /**
@@ -146,26 +143,6 @@ const userInfo = new UserInfo({
  */
 
 /**
- * Handle an error received from the server.
- *
- * @param {Promise} error
- * @returns {void}
- */
-const handleServerError = error => {
-    const errorElement = document.querySelector(errorSelector);
-
-    // Set error's information
-    errorElement.textContent = error;
-    errorElement.classList.add(errorVisibleClass);
-
-    // Hide the error after 5 seconds
-    setTimeout(() => errorElement.classList.remove(errorVisibleClass), 5 * 1000);
-
-    // Also, log the error to the console
-    console.error(error);
-};
-
-/**
  * Get the initial data from the server, and update the page accordingly.
  *
  * @returns {void}
@@ -180,11 +157,11 @@ const loadInitialData = () => {
     // Order of execution is important here
     Promise
         .all([api.getUserInfo(), api.getAllCards()])
-        .then(response => {
-            userInfo.setUserInfo(response[0]);
-            cardsContainer.renderItems(response[1]);
+        .then(([userResponse, cardsResponse]) => {
+            userInfo.setUserInfo(userResponse);
+            cardsContainer.renderItems(cardsResponse);
         })
-        .catch(handleServerError);
+        .catch(error => dialogueError.open(error));
 };
 
 /**
@@ -217,19 +194,21 @@ const createCard = cardData => {
                 if (isLiked) {
                     api.dislikeCard(cardId)
                         .then(response => card.updateLikes(response))
-                        .catch(handleServerError);
+                        .catch(error => dialogueError.open(error));
                 } else {
                     api.likeCard(cardId)
                         .then(response => card.updateLikes(response))
-                        .catch(handleServerError);
+                        .catch(error => dialogueError.open(error));
                 }
             },
             handleRemoveClick: cardId => {
                 dialogueCardRemove.open(() => {
                     api.deleteCard(cardId)
-                        .then(() => card.removeElement())
-                        .catch(handleServerError)
-                        .finally(() => dialogueCardRemove.close());
+                        .then(() => {
+                            card.removeElement();
+                            dialogueCardRemove.close();
+                        })
+                        .catch(error => dialogueError.open(error));
                 });
             }
         },
@@ -251,10 +230,7 @@ buttonCardAdd.addEventListener('click', () => dialogueCardAdd.open());
 
 // Connect the profile-change-picture button to the related dialogue
 const buttonProfileChangePicture = document.querySelector(buttonProfileChangePictureSelector);
-buttonProfileChangePicture.addEventListener('click', () => {
-    dialogueProfileChangePicture.setInputValues(userInfo.getUserInfo());
-    dialogueProfileChangePicture.open();
-});
+buttonProfileChangePicture.addEventListener('click', () => dialogueProfileChangePicture.open());
 
 // Connect the profile-edit button to the related dialogue
 const buttonProfileEdit = document.querySelector(buttonProfileEditSelector);
