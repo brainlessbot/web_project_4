@@ -31,6 +31,9 @@ class DialogueWithError extends Dialogue {
      */
     open(errorMessage) {
         super.open();
+        this._clearCounter();
+
+        // Set the error message
         this._paragraphElement.textContent = errorMessage;
 
         // Reset the counter, and update it every second
@@ -39,7 +42,7 @@ class DialogueWithError extends Dialogue {
             this._counterElement.textContent -= 1;
         }, 1000);
 
-        // Hide the error after 5 seconds, and disable the counter
+        // Hide the error after X seconds, and disable the counter
         this._timeoutId = setTimeout(() => this.close(), this._hideAfterSeconds * 1000);
 
         // In addition to the dialogue, log the error to the console
@@ -54,8 +57,18 @@ class DialogueWithError extends Dialogue {
      */
     close() {
         super.close();
-        clearInterval(this._intervalId);
-        clearTimeout(this._timeoutId);
+        this._clearCounter();
+    }
+
+    /**
+     * Disable the counter when the dialogue is closed.
+     *
+     * @returns {void}
+     * @private
+     */
+    _clearCounter() {
+        this._intervalId && clearInterval(this._intervalId);
+        this._timeoutId && clearTimeout(this._timeoutId);
     }
 }
 
