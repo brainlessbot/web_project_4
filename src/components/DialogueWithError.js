@@ -6,7 +6,7 @@ class DialogueWithError extends Dialogue {
 
     // Selectors and classes
     _paragraphSelector = '.dialogue__paragraph_primary';
-    _counterSelector = '.dialogue__paragraph_counter';
+    _counterSelector = '.dialogue__counter';
 
     /**
      * Initialize a dialogue with error instance.
